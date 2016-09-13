@@ -20,7 +20,7 @@ The bootnode :
 
 It can be launched with this command : 
 ```
-docker run -d -e NETWORKID="100" -v $(PWD)/genesis.json:/tmp/genesis.json -p 80:80 blockchain-bootnode
+docker run -d -e NETWORKID="100" -v $(pwd)/genesis.json:/tmp/genesis.json -p 80:80 blockchain-bootnode
 ```
 with : 
 
