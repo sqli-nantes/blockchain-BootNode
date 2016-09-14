@@ -7,8 +7,7 @@ ENV BUILD_FILE build.sh
 
 RUN mkdir $GETH_DIR
 
-COPY genesis.json $GETH_DIR
-COPY current.json $HTTPD_DIR
+COPY api/ $HTTPD_DIR/api
 COPY $BUILD_FILE $BUILD_FILE
 RUN chmod +x $BUILD_FILE
 

@@ -19,5 +19,5 @@ mkdir -p /root/.ethash
 geth makedag 0 /root/.ethash
 
 geth --datadir $GETH_DIR --networkid 100 js <(echo 'console.log(admin.nodeInfo.enode)') > enode 
-sed -i -- 's#ETHEREUM_ENODE#'$( cat enode )'#g' $HTTPD_DIR/current.json 
+sed -i -- 's#ETHEREUM_ENODE#'$( cat enode )'#g' $HTTPD_DIR/api/bootnode/current 
 rm enode

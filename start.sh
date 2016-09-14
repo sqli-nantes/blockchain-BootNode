@@ -17,7 +17,7 @@ echo "admin" > $GETH_DIR/password
 $GETH --password $GETH_DIR/password account new 
 $GETH --password $GETH_DIR/password js <(echo 'miner.start();admin.sleepBlocks(10);miner.stop()')
 
-sed -i -- 's#\[::\]#'$( hostname --ip-address )'#g' $HTTPD_DIR/current.json 
+sed -i -- 's#\[::\]#'$( hostname --ip-address )'#g' $HTTPD_DIR/api/bootnode/current 
 
 $GETH &
 httpd-foreground 
