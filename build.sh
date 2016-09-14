@@ -15,8 +15,8 @@ sed -i "s/jessie/vivid/g" /etc/apt/sources.list.d/ethereum-ethereum-jessie.list.
 apt-get update 
 apt-get install -y ethereum
 
-mkdir -p $DAG_DIR
-geth makedag 0 $DAG_DIR
+mkdir -p /root/.ethash
+geth makedag 0 /root/.ethash
 
 geth --datadir $GETH_DIR --networkid 100 js <(echo 'console.log(admin.nodeInfo.enode)') > enode 
 sed -i -- 's#ETHEREUM_ENODE#'$( cat enode )'#g' $HTTPD_DIR/current.json 
