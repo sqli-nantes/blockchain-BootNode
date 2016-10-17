@@ -29,3 +29,4 @@ function sendMoney(to,amount){
 
 	miner.start();
 }
+
