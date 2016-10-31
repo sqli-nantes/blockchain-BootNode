@@ -1,14 +1,20 @@
 #!/bin/bash
 
-export GETH='geth 
-	--datadir '$GETH_DIR'
-	--networkid '$NETWORKID'
-	--ipcapi "admin,debug,eth,miner,net,personal,shh,txpool,web3"
-	--exec "loadScript("sendMoney.js")"
-	--nodiscover
-	--jitvm
-	--forcejit
-	--fast'
+export GETH='/usr/bin/geth 
+	--datadir '$GETH_DIR' 
+	--networkid '$NETWORKID' 
+	--ipcapi "admin,debug,eth,miner,net,personal,shh,txpool,web3" 
+	--rpc 
+	--rpcaddr 0.0.0.0 
+	--rpcport 8547
+	--rpcapi "admin,eth,miner,net,web3,personal" 
+	--rpccorsdomain "*" 
+	--exec "loadScript("sendMoney.js")" 
+	--nodiscover 
+	--jitvm 
+	--forcejit'
+
+echo $GETH
 
 cp /tmp/genesis.json $GETH_DIR/genesis.json
 
