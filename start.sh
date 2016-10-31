@@ -26,5 +26,18 @@ $GETH --password $GETH_DIR/password js <(echo 'miner.start();admin.sleepBlocks(1
 sed -i -- 's#\[::\]#'$( hostname --ip-address )'#g' $HTTPD_DIR/current.json 
 
 $GETH &
+
+
+/usr/bin/geth --exec 'admin.nodeInfo.enode' attach $GETH_DIR/geth.ipc > /home/enode.txt
+
+while grep "Fatal" /home/enode.txt >/dev/null 2>&1 ; do
+	/usr/bin/geth --exec 'admin.nodeInfo.enode' attach $GETH_DIR/geth.ipc > /home/enode.txt
+	sleep 1
+done
+
+cat /home/enode.txt
+
+
+
 httpd-foreground 
 
