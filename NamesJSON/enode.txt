@@ -1,0 +1,1 @@
+"enode://bc2027388bcd51a53737486adbbd0a1ed170480d86e52e06cdfe7a77beb0de5acd4a10bbf37efede878ec69c1e989e92a2c95f8cb47eede6ba4f86a06f1db236@[::]:30303?discport=0"

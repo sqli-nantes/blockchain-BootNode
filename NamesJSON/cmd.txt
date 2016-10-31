@@ -1,0 +1,1 @@
+docker run -e NETWORKID=100 -v /home/gaborieau/Documents/BlockChain/blockchain-BootNode/NamesJSON/enode.txt:/home/enode.txt -v /home/gaborieau/Documents/BlockChain/blockchain-BootNode/genesis.json:/tmp/genesis.json -p 8090:80 -p 30303:30303 -p 8547:8547 --name bootnode blockchain-bootnode
