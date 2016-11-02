@@ -2,6 +2,8 @@ var http = require('http');
 var url = require('url');
 var querystring = require('querystring');
 var fs = require('fs');
+var exec = require('child_process').exec;
+
 
 var server = http.createServer(function(req, res) {
     var page = url.parse(req.url).pathname;
@@ -39,12 +41,13 @@ var server = http.createServer(function(req, res) {
 			    	names.push(tmp);
 			    }
 
+				var cmd = 'echo "' + JSON.stringify(names).replace(new RegExp("\"", 'g'),"\\\"") + '" > ./names.json';
+					console.log(cmd);
 
-			    fs.writeFile("./names.json", JSON.stringify(names), function(err) {
-				    if(err) {
-				        return console.log(err);
+				exec(cmd, function(error, stdout, stderr) {
+				    if(error) {new RegExp(search, 'g')
+				        return console.log(stderr);
 				    }
-
 				    console.log("The file was saved!");
 				    fs.readFile('./enode.txt', function read(err, data) {
 					    if(err) {
@@ -63,8 +66,34 @@ var server = http.createServer(function(req, res) {
 					    res.write(enode);
 					    res.end();
 				    });
-
 				});
+
+
+			 //    fs.writeFile("./names.json", JSON.stringify(names), function(err) {
+				//     if(err) {
+				//         return console.log(err);
+				//     }
+
+				//     console.log("The file was saved!");
+				//     fs.readFile('./enode.txt', function read(err, data) {
+				// 	    if(err) {
+				// 	        return console.log(err);
+				// 	    }
+				//     	enode = "" + data;
+
+				//     	enode = "" + enode.replace("[::]","10.42.0.1")
+
+				//     	console.log(enode);
+				    	
+
+
+
+				// 		res.writeHead(200, {"Content-Type": "text/plain"});
+				// 	    res.write(enode);
+				// 	    res.end();
+				//     });
+
+				// });
 
 
 			}); 
