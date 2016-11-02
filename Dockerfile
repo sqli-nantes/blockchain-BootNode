@@ -16,10 +16,12 @@ RUN echo "nameserver 10.33.44.43" >> /etc/resolv.conf && echo "nameserver 10.234
 RUN rm ./$BUILD_FILE
 
 COPY sendMoney.js $GETH_DIR
+COPY MineOnlyWhenTx.js $GETH_DIR
 
 COPY start.sh $HOME
 RUN chmod +x $HOME/start.sh
 
 EXPOSE 30303
+EXPOSE 8547
 
 CMD $HOME/start.sh

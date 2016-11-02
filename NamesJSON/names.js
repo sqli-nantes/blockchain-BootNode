@@ -17,114 +17,106 @@ var server = http.createServer(function(req, res) {
     if (page == '/names') {
         if('address' in params && 'name' in params)
         {
-        	// Get known names
-			fs.readFile('./names.json', function read(err, data) {
-			    if (err) {
-			        throw err;
-			    }
-			    var content = data;
-
-
-			    var names = JSON.parse(content);
-
-
-			    // Check if name exists
-			    var found = false;
-
-			    for (var i = 0; i < names.length; i++) {
-			    	// If the name exists, modify the address according to the url parameter
-			    	if(names[i].name==params['name'])
-			    	{
-			    		names[i].address = params['address'];
-			    		found = true;
-			    		break;
-			    	}
-			    }
-
-			    // If the name isn't found, add it
-			    if(!found){
-			    	var tmp = {};
-			    	tmp.name = params['name'];
-			    	tmp.address = params['address'];
-			    	names.push(tmp);
-			    }
-
-
-			    // Write the data in the file (use echo in order to keep the inode file non-modified)
-				var cmd = 'echo "' + JSON.stringify(names).replace(new RegExp("\"", 'g'),"\\\"") + '" > ./names.json';
-					console.log(cmd);
-
-				exec(cmd, function(error, stdout, stderr) {
-				    if(error) {new RegExp(search, 'g')
-				        return console.log(stderr);
-				    }
-
-				    // Read the enode of the blockchain
-				    fs.readFile('./enode.txt', function read(err, data) {
-					    if(err) {
-					        return console.log(err);
-					    }
-				    	enode = "" + data;
-
-				    	// Set the ip of the enode
-				    	enode = "" + enode.replace("[::]","10.42.0.1")
-
-				    	console.log(enode);
-
-				    	// Return it
-						res.writeHead(200, {"Content-Type": "text/plain"});
-					    res.write(enode);
-					    res.end();
-
-
-					    try
-					    {
-						    // Send money to the user
-							sendMoney(params["address"], 5);
-							console.log("Money transfered");
-						}
-						catch(e)
-						{
-							console.log(e);
-						}
-
-
-				    });
-				});
-
-
-			 //    fs.writeFile("./names.json", JSON.stringify(names), function(err) {
-				//     if(err) {
-				//         return console.log(err);
-				//     }
-
-				//     console.log("The file was saved!");
-				//     fs.readFile('./enode.txt', function read(err, data) {
-				// 	    if(err) {
-				// 	        return console.log(err);
-				// 	    }
-				//     	enode = "" + data;
-
-				//     	enode = "" + enode.replace("[::]","10.42.0.1")
-
-				//     	console.log(enode);
-				    	
-
-
-
-				// 		res.writeHead(200, {"Content-Type": "text/plain"});
-				// 	    res.write(enode);
-				// 	    res.end();
-				//     });
-
-				// });
-
-
-			}); 
+        	addName(res, params);
         }
     }
+
+    if (page == '/send') {
+        if('address' in params && 'name' in params)
+        {
+        	askSendMoney(res, params, ('amount' in params) ? params['amount'] : 5);
+        }
+    }
+
+
 });
 server.listen(8081);
+
+
+function addName(res, params)
+{
+	// Get known names
+	fs.readFile('./names.json', function read(err, data) {
+	    if (err) {
+	        throw err;
+	    }
+	    var content = data;
+
+
+	    var names = JSON.parse(content);
+
+
+	    // Check if name exists
+	    var found = false;
+
+	    for (var i = 0; i < names.length; i++) {
+	    	// If the name exists, modify the address according to the url parameter
+	    	if(names[i].name==params['name'])
+	    	{
+	    		names[i].address = params['address'];
+	    		found = true;
+	    		break;
+	    	}
+	    }
+
+	    // If the name isn't found, add it
+	    if(!found){
+	    	var tmp = {};
+	    	tmp.name = params['name'];
+	    	tmp.address = params['address'];
+	    	names.push(tmp);
+	    }
+
+
+	    // Write the data in the file (use echo in order to keep the inode file non-modified)
+		var cmd = 'echo "' + JSON.stringify(names).replace(new RegExp("\"", 'g'),"\\\"") + '" > ./names.json';
+			//console.log(cmd);
+
+		exec(cmd, function(error, stdout, stderr) {
+		    if(error) {new RegExp(search, 'g')
+		        return console.log(stderr);
+		    }
+
+		    // Read the enode of the blockchain
+		    fs.readFile('./enode.txt', function read(err, data) {
+			    if(err) {
+			        return console.log(err);
+			    }
+		    	enode = "" + data;
+
+		    	// Set the ip of the enode
+		    	enode = "" + enode.replace("[::]","10.42.0.1")
+
+		    	console.log(enode);
+
+		    	// Return it
+				res.writeHead(200, {"Content-Type": "text/plain"});
+			    res.write(enode);
+			    res.end();
+		    });
+		});
+
+
+	}); 
+}
+
+function askSendMoney(res, params, amount)
+{
+    try
+    {
+	    // Send money to the user
+		sendMoney(params["address"], amount);
+		console.log("Money transfered");
+
+		res.writeHead(200, {"Content-Type": "text/plain"});
+	    res.write("ok");
+	    res.end();
+	}
+	catch(e)
+	{
+		console.log(e);
+	}
+}
 
 
 function sendMoney(to,amount){
