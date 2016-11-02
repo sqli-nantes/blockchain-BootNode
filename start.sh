@@ -37,6 +37,10 @@ done
 
 cat /home/enode.txt
 
+/usr/bin/geth --exec 'loadScript("'$GETH_DIR'/MineOnlyWhenTx.js")' attach $GETH_DIR/geth.ipc
+
+
+
 
 
 httpd-foreground 
