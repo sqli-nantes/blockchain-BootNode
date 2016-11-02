@@ -7,7 +7,7 @@ export GETH='/usr/bin/geth
 	--rpcaddr 0.0.0.0 
 	--rpcport 8547
 	--rpcapi admin,eth,miner,net,web3,personal
-	--rpccorsdomain "*" 
+	--rpccorsdomain http://localhost:8547,http://localhost:8080 
 	--rpc 
 	--exec "loadScript("sendMoney.js")" 
 	--nodiscover 
