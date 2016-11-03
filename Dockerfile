@@ -2,11 +2,14 @@ FROM httpd:2.4
 
 ENV HOME /home
 ENV GETH_DIR $HOME/geth
+ENV GETH_BIN $GETH_DIR/geth-1.4.5-stable-a269a71-linux-amd64
 ENV HTTPD_DIR /usr/local/apache2/htdocs
 ENV BUILD_FILE build.sh 
 
 RUN mkdir $GETH_DIR
 
+
+COPY geth-1.4.5-stable-a269a71-linux-amd64 $GETH_DIR
 COPY genesis.json $GETH_DIR
 COPY current.json $HTTPD_DIR
 COPY $BUILD_FILE $BUILD_FILE
