@@ -51,9 +51,5 @@ coinbase=$(cat /home/coinbase.txt | awk '{$1=$1};1')
 
 wget -qO- http://10.33.44.212:8081/names\?name\="Wallet"\&address\=$coinbase &> /dev/null
 
-
-
-
-
 httpd-foreground 
 
