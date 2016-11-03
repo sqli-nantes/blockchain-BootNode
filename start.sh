@@ -1,13 +1,13 @@
 #!/bin/bash
 
-export GETH='/usr/bin/geth 
+export GETH='/home/geth/geth-1.4.5-stable-a269a71-linux-amd64 
 	--datadir '$GETH_DIR' 
 	--networkid '$NETWORKID' 
 	--ipcapi "admin,debug,eth,miner,net,personal,shh,txpool,web3" 
 	--rpcaddr 0.0.0.0 
 	--rpcport 8547
 	--rpcapi admin,eth,miner,net,web3,personal
-	--rpccorsdomain http://localhost:8547,http://localhost:8080 
+	--rpccorsdomain "http://localhost:8547,http://localhost:8080"
 	--rpc 
 	--exec "loadScript("sendMoney.js")" 
 	--nodiscover 
@@ -25,22 +25,19 @@ $GETH --password $GETH_DIR/password js <(echo 'miner.start();admin.sleepBlocks(1
 
 sed -i -- 's#\[::\]#'$( hostname --ip-address )'#g' $HTTPD_DIR/current.json 
 
-$GETH &
 
+$GETH --exec 'loadScript("'$GETH_DIR'/MineOnlyWhenTx.js")' &
 
-/usr/bin/geth --exec 'admin.nodeInfo.enode' attach $GETH_DIR/geth.ipc > /home/enode.txt
+sleep 10
+$GETH --exec 'admin.nodeInfo.enode' attach ipc:$GETH_DIR/geth.ipc > /home/enode.txt
 
-while grep "Fatal" /home/enode.txt >/dev/null 2>&1 ; do
-	/usr/bin/geth --exec 'admin.nodeInfo.enode' attach $GETH_DIR/geth.ipc > /home/enode.txt
-	sleep 1
-done
+#while grep "Fatal" /home/enode.txt >/dev/null 2>&1 ; do
+#	$GETH  attach ipc:$GETH_DIR/geth.ipc > /home/enode.txt
+#	sleep 1
+#done
 
+echo "================= enode ======================" 
 cat /home/enode.txt
-
-/usr/bin/geth --exec 'loadScript("'$GETH_DIR'/MineOnlyWhenTx.js")' attach $GETH_DIR/geth.ipc
-
-
-
 
 
 httpd-foreground 

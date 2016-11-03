@@ -1,7 +1,7 @@
 
 
 function sendMoney(to,amount){
-	var balance = eth.getBalance(eth.coinbase);
+	/*var balance = eth.getBalance(eth.coinbase);
 	var enough = (balance - amount )
 	if( enough < 0 ){
 		var nbBlock = parseInt(Math.abs(enough)/5)+1; 		//1 block is 5 Ether. How many blocks to mine to get missing Ether
@@ -10,11 +10,11 @@ function sendMoney(to,amount){
 		admin.sleepBlocks(nbBlock);
 		miner.stop();
 	}
-
+*/
 	personal.unlockAccount(eth.coinbase,'admin');
-	var currentBlockNumber = eth.getBlock('latest').number;
+	//var currentBlockNumber = eth.getBlock('latest').number;
 	var tx = eth.sendTransaction({from:eth.coinbase,to:to,value:web3.toWei(amount,'ether')});
-	var filter = web3.eth.filter('latest');
+	/*var filter = web3.eth.filter('latest');
 
 	filter.watch(function(e,blockHash){
 		if( eth.getBlock(blockHash).number > currentBlockNumber+20 ){
@@ -27,5 +27,5 @@ function sendMoney(to,amount){
 		}
 	});
 
-	miner.start();
+	miner.start();*/
 }
