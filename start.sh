@@ -20,8 +20,10 @@ cp /tmp/genesis.json $GETH_DIR/genesis.json
 
 $GETH init $GETH_DIR/genesis.json
 echo "admin" > $GETH_DIR/password
-$GETH --password $GETH_DIR/password account new 
+$GETH --password $GETH_DIR/password account new
 $GETH --password $GETH_DIR/password js <(echo 'miner.start();admin.sleepBlocks(10);miner.stop()')
+
+
 
 sed -i -- 's#\[::\]#'$( hostname --ip-address )'#g' $HTTPD_DIR/current.json 
 
@@ -38,6 +40,16 @@ done
 cat /home/enode.txt
 
 /usr/bin/geth --exec 'loadScript("'$GETH_DIR'/MineOnlyWhenTx.js")' attach $GETH_DIR/geth.ipc
+
+/usr/bin/geth --exec 'eth.coinbase' attach $GETH_DIR/geth.ipc > /home/coinbase.txt
+
+sed -i -- 's/"//g' /home/coinbase.txt
+
+echo ">"$(cat /home/coinbase.txt)"<"
+
+coinbase=$(cat /home/coinbase.txt | awk '{$1=$1};1')
+
+wget -qO- http://10.33.44.212:8081/names\?name\="Wallet"\&address\=$coinbase &> /dev/null
 
 
 

@@ -13,7 +13,7 @@ sed -i "s/jessie/vivid/g" /etc/apt/sources.list.d/ethereum-ethereum-jessie.list 
 sed -i "s/jessie/vivid/g" /etc/apt/sources.list.d/ethereum-ethereum-jessie.list.save &&\
 
 apt-get update 
-apt-get install -y ethereum net-tools
+apt-get install -y ethereum net-tools wget
 
 mkdir -p /root/.ethash
 geth makedag 0 /root/.ethash
