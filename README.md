@@ -15,15 +15,18 @@ The bootnode :
 
 1. connects to the specified blockchain 
 2. creates an account 
-3. mine 10 blocks to get Ether
+3. mine 20 blocks to get Ether
 4. publishes its node info to the current.json file
 
 It can be launched with this command : 
 ```
-docker run -d -e NETWORKID="100" -v $(pwd)/genesis.json:/tmp/genesis.json -p 80:80 blockchain-bootnode
+docker run -d -e NETWORKID="100" -v $(pwd)/genesis.json:/tmp/genesis.json -p 80:80 -p 30303:30303 -p 8547:8547 blockchain-bootnode
 ```
 with : 
 
 * ```-e NETWORKID="100"``` : replace ```100``` with your network id
 * ```-v $(PWD)/genesis.json:/tmp/genesis.json``` : replace ```$(PWD)``` with path of your genesis block file
 * ```-p 80:80``` : replace first ```80``` with the bound port on your machine.
+* ```-p 30303:30303``` : replace first ```30303``` with the bound port on your machine.
+* ```-p 8547:8547``` : replace first ```8547``` with the bound port on your machine.
+
