@@ -4,7 +4,46 @@ var querystring = require('querystring');
 var fs = require('fs');
 var exec = require('child_process').exec;
 var web3 = require('./utils/web3IPCExtension').web3;
-//var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8547"));	
+
+
+
+///////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+function checkWork() {
+    if (web3.eth.getBlock("pending").transactions.length > 0) {
+        if (web3.eth.mining) return;
+        console.log("== Pending transactions! Mining...");
+        web3.miner.start();
+    } else {
+        web3.miner.stop();
+        console.log("== No transactions! Mining stopped.");
+    }
+}
+
+web3.eth.filter("latest", function(err, block) { checkWork(); });
+web3.eth.filter("pending", function(err, block) { checkWork(); });
+checkWork();
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////
+
+
+
+
+
+
+
 
 
 var server = http.createServer(function(req, res) {
@@ -85,7 +124,7 @@ function addName(res, params)
 		    	enode = "" + data;
 
 		    	// Set the ip of the enode
-		    	enode = "" + enode.replace("[::]","10.42.0.1")
+		    	enode = "" + enode.replace("[::]","10.33.44.212")
 
 		    	console.log(enode);
 
