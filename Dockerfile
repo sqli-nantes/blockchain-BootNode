@@ -25,6 +25,7 @@ COPY start.sh $HOME
 RUN chmod +x $HOME/start.sh
 
 COPY NamesJSON $NAMES_DIR
+RUN cd $NAMES_DIR && npm install
 
 EXPOSE 30303
 EXPOSE 8547
