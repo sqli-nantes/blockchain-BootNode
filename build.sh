@@ -3,7 +3,7 @@
 apt-get update 
 apt-get upgrade -y 
 apt-get dist-upgrade -y 
-apt-get install -y software-properties-common net-tools nodejs nodejs-legacy npm
+apt-get install -y software-properties-common net-tools nodejs nodejs-legacy npm git
 
 
 mkdir -p /root/.ethash
