@@ -124,7 +124,7 @@ function addName(res, params)
 		    	enode = "" + data;
 
 		    	// Set the ip of the enode
-		    	enode = "" + enode.replace("[::]","10.33.44.212")
+		    	enode = "" + enode.replace("[::]","192.168.7.1")
 
 		    	console.log(enode);
 
