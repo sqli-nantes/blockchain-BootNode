@@ -1,5 +1,5 @@
 # blockchain-BootNode
-generic bootnode for blockchain projects
+Generic bootnode for blockchain projects
 
 ## Build
 
