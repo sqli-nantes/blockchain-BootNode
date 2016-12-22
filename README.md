@@ -27,3 +27,5 @@ with :
 * ```-e NETWORKID="100"``` : replace ```100``` with your network id
 * ```-v $(PWD)/genesis.json:/tmp/genesis.json``` : replace ```$(PWD)``` with path of your genesis block file
 * ```-p 80:80``` : replace first ```80``` with the bound port on your machine.
+
+Have fun
