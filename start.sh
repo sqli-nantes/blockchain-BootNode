@@ -28,7 +28,7 @@ sed -i -- 's#\[::\]#'$( hostname --ip-address )'#g' $HTTPD_DIR/current.json
 $GETH --exec 'loadScript("'$GETH_DIR'/MineOnlyWhenTx.js")' &
 
 sleep 10
-$GETH --exec 'admin.nodeInfo.enode' attach ipc:$GETH_DIR/geth.ipc > /home/enode.txt
+$GETH --exec 'admin.nodeInfo.enode' attach ipc:$GETH_DIR/geth.ipc > /home/NamesJSON/enode.txt
 
 #while grep "Fatal" /home/enode.txt >/dev/null 2>&1 ; do
 #	$GETH  attach ipc:$GETH_DIR/geth.ipc > /home/enode.txt
