@@ -4,7 +4,6 @@ ENV HOME /home
 ENV GETH_DIR $HOME/geth
 ENV GETH_BIN $GETH_DIR/geth-1.4.5-stable-a269a71-linux-amd64
 ENV HTTPD_DIR /usr/local/apache2/htdocs
-ENV BUILD_FILE build.sh 
 ENV NAMES_DIR $HOME/NamesJSON
 
 RUN mkdir $GETH_DIR
@@ -12,11 +11,21 @@ RUN mkdir $NAMES_DIR
 
 COPY geth-1.4.5-stable-a269a71-linux-amd64 $GETH_DIR
 COPY current.json $HTTPD_DIR
-COPY $BUILD_FILE $BUILD_FILE
-RUN chmod +x $BUILD_FILE
 
-RUN ./$BUILD_FILE
-RUN rm ./$BUILD_FILE
+RUN apt-get update
+  && apt-get upgrade -y
+  && apt-get dist-upgrade -y
+  && apt-get install -y software-properties-common net-tools git curl
+  && curl -sL https://deb.nodesource.com/setup_4.x | bash
+  && apt-get update -y
+  && apt-get install -y nodejs
+  && node -v
+  && npm -v
+  && mkdir -p /root/.ethash
+  && $GETH_BIN makedag 0 /root/.ethash
+  && $GETH_BIN --datadir $GETH_DIR --networkid 100 js <(echo 'console.log(admin.nodeInfo.enode)') > enode
+  && sed -i -- 's#ETHEREUM_ENODE#'$( cat enode )'#g' $HTTPD_DIR/current.json
+  && rm enode
 
 COPY sendMoney.js $GETH_DIR
 COPY MineOnlyWhenTx.js $GETH_DIR
