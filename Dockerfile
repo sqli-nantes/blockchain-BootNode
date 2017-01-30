@@ -15,7 +15,7 @@ COPY current.json $HTTPD_DIR
 RUN apt-get update
   && apt-get upgrade -y
   && apt-get dist-upgrade -y
-  && apt-get install -y software-properties-common net-tools git curl
+  && apt-get install -y software-properties-common net-tools git curl build-essential
   && curl -sL https://deb.nodesource.com/setup_4.x | bash
   && apt-get update -y
   && apt-get install -y nodejs
