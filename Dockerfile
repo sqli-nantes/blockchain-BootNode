@@ -19,11 +19,13 @@ RUN apt-get update \
   && apt-get install -y nodejs \
   && node -v \
   && npm -v \
-  && mkdir -p /root/.ethash \
-  && $GETH_BIN makedag 0 /root/.ethash \
-  && $GETH_BIN --datadir $GETH_DIR --networkid 100 js <(echo 'console.log(admin.nodeInfo.enode)') > enode \
-  && sed -i -- 's#ETHEREUM_ENODE#'$( cat enode )'#g' $HTTPD_DIR/current.json \
-  && rm enode
+  && mkdir -p /root/.ethash 
+
+RUN $GETH_BIN makedag 0 /root/.ethash 
+RUN bash -c "$GETH_BIN --datadir $GETH_DIR --networkid 100 js <(echo 'console.log(admin.nodeInfo.enode)') > enode"
+
+RUN sed -i -- 's#ETHEREUM_ENODE#'$( cat enode )'#g' $HTTPD_DIR/current.json 
+RUN rm enode
 
 COPY sendMoney.js $GETH_DIR
 COPY MineOnlyWhenTx.js $GETH_DIR
