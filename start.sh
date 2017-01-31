@@ -7,7 +7,7 @@ export GETH='/home/geth/geth-1.4.5-stable-a269a71-linux-amd64
 	--rpcaddr 0.0.0.0 
 	--rpcport 8547
 	--rpcapi admin,eth,miner,net,web3,personal,miner
-	--rpccorsdomain "http://localhost:8547,http://localhost:8080"
+	--rpccorsdomain "*"
 	--rpc 
 	--nodiscover 
 	--jitvm 

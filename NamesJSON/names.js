@@ -125,6 +125,7 @@ function addName(res, params)
 
 		    	// Set the ip of the enode
 		    	enode = "" + enode.replace("[::]","172.17.0.4")
+		    	//TODO get machine ip
 
 		    	console.log(enode);
 
